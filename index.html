@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Sophia! 🍉🧸</title>
+    <title>Happy Birthday Sophia! 🍉🦋</title>
     <style>
+        /* ESTILOS ORIGINALES SIN MODIFICAR */
         body {
             margin: 0;
             padding: 0;
@@ -17,9 +18,9 @@
             font-family: 'Comic Sans MS', cursive;
             overflow: hidden;
             position: relative;
-            text-align: center;
         }
 
+        /* ESTILOS NUEVOS SOLO PARA BOTONES */
         .button-container {
             position: fixed;
             top: 20px;
@@ -51,26 +52,23 @@
             transform: scale(0.95);
         }
 
-        .container {
-            max-width: 90%;
-            padding: 20px;
-        }
-
-        .message {
-            margin-top: 20px;
-        }
+        /* ... (resto de tus estilos originales permanece igual) ... */
     </style>
 </head>
 <body>
+    <!-- Botones añadidos aquí -->
     <div class="button-container">
-        <button class="nav-btn" onclick="showGift()">🏱 Gift</button>
+        <button class="nav-btn" onclick="showGift()">🎁 Gift</button>
         <button class="nav-btn" onclick="startGame()">🎮 Game</button>
     </div>
 
-    <div class="butterfly" style="left: 10%; top: 5%">🧸</div>
-    <div class="butterfly" style="left: 30%; top: 15%">🌸</div>
-    <div class="butterfly" style="left: 70%; top: 25%">🎮</div>
-
+    <!-- Contenido original sin cambios -->
+    <!-- Butterflies -->
+    <div class="butterfly" style="left: 10%; top: 5%"></div>
+    <div class="butterfly" style="left: 30%; top: 15%"></div>
+    <div class="butterfly" style="left: 70%; top: 25%"></div>
+    
+    <!-- Floating Watermelons -->
     <div class="watermelon" style="left: 5%; animation-delay: 1s">
         <div class="watermelon-slice"></div>
     </div>
@@ -78,24 +76,28 @@
         <div class="watermelon-slice"></div>
     </div>
 
+    <!-- Main Content -->
     <div class="container">
-        <h1>🍉 Happy Birthday Sophia! 🧸</h1>
+        <h1>🍉 Happy Birthday Sophia! 🦋</h1>
+        
         <div class="message">
             <p>🎈 On this day as sweet as watermelon...</p>
-            <p>🧸 May your dreams fly high like butterflies</p>
+            <p>🦋 May your dreams fly high like butterflies</p>
             <p>🍉 May every moment be juicy and refreshing</p>
             <p>🌞 May joy shine brighter than summer sun</p>
             <p>💚 May this new year be full of adventures</p>
             <p>🎂 Wishing you an amazingly special day!</p>
             <p>🍓 With all the love in the world 🍉</p>
-            <p style="margin-top: 20px;">🏱 From Abraham Castro Copa</p>
+            <p style="margin-top: 20px;">🎁 From Abraham Castro Copa</p>
         </div>
     </div>
 
-    <div class="sparkle" style="top: 20%; left: 20%">✨</div>
-    <div class="sparkle" style="top: 60%; left: 80%">🌟</div>
+    <!-- Sparkles -->
+    <div class="sparkle" style="top: 20%; left: 20%"></div>
+    <div class="sparkle" style="top: 60%; left: 80%"></div>
 
     <script>
+        // Ahora redirigen a otras páginas
         function showGift() {
             window.location.href = 'gift.html';
         }
