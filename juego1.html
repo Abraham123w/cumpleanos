@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mariposas Mágicas - Sophia 15</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffb6c1, #87cefa);
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        #game-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        #player {
+            position: absolute;
+            font-size: 40px;
+            transition: all 0.1s;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: 30px;
+            animation: flutter 0.5s infinite alternate;
+            cursor: pointer;
+        }
+
+        #score {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 20px;
+            animation: sparkle 1s ease-out;
+        }
+
+        @keyframes flutter {
+            0% { transform: translateY(0) rotate(10deg); }
+            100% { transform: translateY(-5px) rotate(-10deg); }
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(3); }
+        }
+
+        #celebration {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: #ff69b4;
+            text-align: center;
+            text-shadow: 0 0 20px white;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Mariposas atrapadas: 0</div>
+    <div id="game-container">
+        <div id="player">🦋🎀</div>
+        <div id="celebration">¡Congratilations Sophia! 🌸🎉</div>
+    </div>
+
+    <script>
+        let score = 0;
+        let playerX = window.innerWidth / 2;
+        let playerY = window.innerHeight - 100;
+        const playerSpeed = 25;
+        const butterflies = [];
+
+        // Controles
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft': playerX = Math.max(30, playerX - playerSpeed); break;
+                case 'ArrowRight': playerX = Math.min(window.innerWidth - 30, playerX + playerSpeed); break;
+                case 'ArrowUp': playerY = Math.max(30, playerY - playerSpeed); break;
+                case 'ArrowDown': playerY = Math.min(window.innerHeight - 30, playerY + playerSpeed); break;
+            }
+            updatePlayerPosition();
+        });
+
+        function updatePlayerPosition() {
+            const player = document.getElementById('player');
+            player.style.left = `${playerX}px`;
+            player.style.top = `${playerY}px`;
+        }
+
+        // Crear mariposas
+        function createButterfly() {
+            const butterfly = document.createElement('div');
+            butterfly.className = 'butterfly';
+            butterfly.innerHTML = '🦋';
+            butterfly.style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            
+            // Posición inicial aleatoria
+            butterfly.style.left = `${Math.random() * (window.innerWidth - 50)}px`;
+            butterfly.style.top = `${Math.random() * (window.innerHeight - 50)}px`;
+            
+            document.body.appendChild(butterfly);
+            butterflies.push({
+                element: butterfly,
+                x: parseFloat(butterfly.style.left),
+                y: parseFloat(butterfly.style.top),
+                speedX: (Math.random() - 0.5) * 4,
+                speedY: (Math.random() - 0.5) * 4
+            });
+        }
+
+        // Actualizar posición mariposas
+        function updateButterflies() {
+            butterflies.forEach((butterfly, index) => {
+                butterfly.x += butterfly.speedX;
+                butterfly.y += butterfly.speedY;
+                
+                // Rebotar en bordes
+                if(butterfly.x < 0 || butterfly.x > window.innerWidth - 30) {
+                    butterfly.speedX *= -1;
+                }
+                if(butterfly.y < 0 || butterfly.y > window.innerHeight - 30) {
+                    butterfly.speedY *= -1;
+                }
+                
+                butterfly.element.style.left = `${butterfly.x}px`;
+                butterfly.element.style.top = `${butterfly.y}px`;
+                
+                // Verificar colisión
+                const distance = Math.sqrt(
+                    Math.pow(butterfly.x - playerX, 2) +
+                    Math.pow(butterfly.y - playerY, 2)
+                );
+                
+                if(distance < 40) {
+                    createSparkle(butterfly.x, butterfly.y);
+                    butterfly.element.remove();
+                    butterflies.splice(index, 1);
+                    score += 100;
+                    document.getElementById('score').textContent = `Mariposas atrapadas: ${score/100}`;
+                    
+                    if(score >= 1000) {
+                        document.getElementById('celebration').style.display = 'block';
+                        createConfetti();
+                    }
+                }
+            });
+        }
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.textContent = ['✨', '🌟', '💫'][Math.floor(Math.random() * 3)];
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1000);
+        }
+
+        function createConfetti() {
+            for(let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'sparkle';
+                confetti.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.textContent = ['🎉', '🎊', '🌸'][Math.floor(Math.random() * 3)];
+                confetti.style.left = `${Math.random() * window.innerWidth}px`;
+                confetti.style.top = `${Math.random() * window.innerHeight}px`;
+                confetti.style.animation = `sparkle ${1 + Math.random() * 2}s ease-out`;
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Iniciar juego
+        setInterval(updateButterflies, 1000/60);
+        setInterval(createButterfly, 1500);
+        updatePlayerPosition();
+    </script>
+</body>
+</html>
